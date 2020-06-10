@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!-- Form contact -->
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Breadcrumb -->
+                <ul class="breadcrumbs bg-light mb-4">
+                    <li class="breadcrumbs__item">
+                        <a href="#" class="breadcrumbs__url">
+                            <i class="fa fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="breadcrumbs__item">
+                        <a href="#" class="breadcrumbs__url">Time </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wrap__contact-form">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h5>contact us</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-name">
+                            <label>Enter Latitude <span class="required"></span></label>
+                            <input type="text" class="form-control" id="sunrise" name="name" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-name">
+                            <label>Enter Longitude <span class="required"></span></label>
+                            <input type="email" class="form-control" id="sunset" name="email" required="">
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <br />
+                        <div class="form-group text-center mb-4">
+                            <button type="button" onclick="GetSunTime()" class="btn btn-success">Get Data</button> &nbsp;&nbsp;&nbsp;
+                            <button type="button" onclick="Clear()" class="btn btn-primary" >Clear</button>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-md-12">
+
+                        <b>Sunrise is at </b> : &nbsp; @*<b id="sunrisetime">08.00 AM</b>*@<label id="sunrisetime" style="color:#083c0e"></label> <br />
+                        <b>Sunset is at </b> : &nbsp; @*<b id="sunsettime">06.00 PM</b>*@<label id="sunsettime" style="color:#ff0000"></label>
+
+                    </div>
+                    <br />
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    function GetSunTime()
+    {
+        var sunr = $('#sunrise').val();
+        var suns = $('#sunset').val();
+
+        var q = 'https://api.sunrise-sunset.org/json?lat=' + sunr + '&lng=' + suns +'&timezone=+5:30'
+
+    $.ajax({
+        url: q,
+        dataType: "text",
+        success: function(data){
+            data = JSON.parse(data);
+
+            $('#mypanel').html('Sunrise:' + data.results.sunrise + '<br>' + 'SunSet:' + data.results.sunset);
+
+            //alert(data.results.sunrise);
+            //alert(data.results.sunset);
+
+            document.getElementById('sunrisetime').innerHTML = data.results.sunris;
+            document.getElementById('sunsettime').innerHTML = data.results.sunset;
+        }
+    });
+
+    }
+
+
+
+    function Clear()
+    {
+        var sunr = $('#sunrise').val();
+        var suns = $('#sunset').val();
+
+        var sunrt = $('#sunrisetime').val();
+        var sunst = $('#sunsettime').val();
+
+
+        if (sunr != null || suns != null || sunrt != null || sunst!=null)
+        {
+            document.getElementById('sunrise').value = "";
+            document.getElementById('sunset').value = "";
+
+            document.getElementById('sunrisetime').innerHTML = "";
+            document.getElementById('sunsettime').innerHTML = "";
+        }
+
+    }
+</script>
+
